@@ -33,7 +33,7 @@ void Player::Initialize(DirectXCommon* dxCommon, Input* input) {
 	fbxObject3d_->SetModel(fbxModel_);
 	fbxObject3d_->wtf.position = { 0.0f,-0.3f,0.0f };
 	fbxObject3d_->wtf.scale = { 0.1f,0.1f,0.1f };
-	fbxObject3d_->PlayAnimation();
+	fbxObject3d_->PlayAnimation(1.0f,true);
 }
 
 void Player::Update() {

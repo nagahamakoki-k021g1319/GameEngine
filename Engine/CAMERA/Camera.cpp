@@ -233,6 +233,7 @@ void Camera::MoveVector(const Vector3& move)
 
 float Camera::FieldOfViewY() {
 
-	return 2.0f * atan(sensor / (2.0f * focalLengs));
+
+	return 2.0f * atanf(sensor / (2.0f * focalLengs));
 
 }
