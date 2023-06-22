@@ -1,4 +1,4 @@
-#include "GameScene.h"
+﻿#include "GameScene.h"
 
 
 /// <summary>
@@ -17,7 +17,8 @@ GameScene::~GameScene() {
 	delete camera2;
 	delete camera3;
 	delete player_;
-	
+	delete skydome;
+	delete skydomeMD;
 }
 
 /// <summary>

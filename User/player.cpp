@@ -1,4 +1,4 @@
-#include"player.h"
+﻿#include"player.h"
 
 Player::Player() {
 
@@ -31,8 +31,8 @@ void Player::Initialize(DirectXCommon* dxCommon, Input* input) {
 	fbxObject3d_ = new FBXObject3d;
 	fbxObject3d_->Initialize();
 	fbxObject3d_->SetModel(fbxModel_);
-	fbxObject3d_->wtf.position = { 0,-0.3,0 };
-	fbxObject3d_->wtf.scale = { 0.1,0.1,0.1 };
+	fbxObject3d_->wtf.position = { 0.0f,-0.3f,0.0f };
+	fbxObject3d_->wtf.scale = { 0.1f,0.1f,0.1f };
 	fbxObject3d_->PlayAnimation();
 }
 

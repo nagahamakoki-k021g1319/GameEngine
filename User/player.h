@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "DirectXCommon.h"
 #include "Object3d.h"
 #include "Input.h"
@@ -40,7 +40,7 @@ public:
 	IXAudio2SourceVoice* pSourceVoice[10] = { 0 };
 
 private:
-	const float PI = 3.141592;
+	const float PI = 3.141592f;
 	Input* input_ = nullptr;
 	DirectXCommon* dxCommon = nullptr;
 	Audio* audio = nullptr;

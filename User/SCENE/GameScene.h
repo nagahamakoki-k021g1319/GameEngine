@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "DirectXCommon.h"
 #include "Input.h"
@@ -70,7 +70,7 @@ private: // メンバ変数 (固定)
 
 
 private:	//メンバ変数
-	const float PI = 3.141592;
+	const float PI = 3.141592f;
 
 	//カメラ
 	Camera* mainCamera = nullptr;
