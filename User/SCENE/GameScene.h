@@ -14,7 +14,8 @@
 
 #include "ParticleManager.h"
 
-#include"Player.h"
+#include "Player.h"
+#include "Enemy.h"
 
 
 /// <summary>
@@ -81,11 +82,13 @@ private:	//メンバ変数
 	//プレイヤー
 	Player* player_ = nullptr;
 
+	//敵
+	Enemy* enemy_ = nullptr;
+
 	//背景や床
 	Object3d* skydome = nullptr;
 	Model* skydomeMD = nullptr;
-	
-	//UI
-	
-	//ゲームフロー
+
+
+
 };

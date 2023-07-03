@@ -17,6 +17,7 @@ GameScene::~GameScene() {
 	delete camera2;
 	delete camera3;
 	delete player_;
+	delete enemy_;
 	delete skydome;
 	delete skydomeMD;
 }
@@ -49,12 +50,18 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input) {
 	skydomeMD = Model::LoadFromOBJ("skydome");
 	skydome = Object3d::Create();
 	skydome->SetModel(skydomeMD);
-	skydome->wtf.scale = (Vector3{ 1000, 1000, 1000 });
+	skydome->wtf.scale = { 10.0f,10.0f,10.0f };
+	skydome->wtf.rotation = {0.0f,0.0f,0.0f};
 
 	//プレイヤー
 	player_ = new Player();
 	player_->Initialize(dxCommon,input);
 	player_->SetCamera(mainCamera);
+
+	//敵
+	enemy_ = new Enemy();
+	enemy_->Initialize(dxCommon, input);
+
 }
 
 void GameScene::Reset() {
@@ -68,7 +75,12 @@ void GameScene::Update() {
 
 	player_->Update();
 
+	enemy_->Update();
+
 	skydome->Update();
+	skydome->wtf.rotation.y += 0.0001f;
+	skydome->wtf.rotation.z += 0.001f;
+
 }
 
 /// <summary>
@@ -84,6 +96,7 @@ void GameScene::Draw() {
 	Object3d::PreDraw(dxCommon->GetCommandList());
 	//// 3Dオブクジェクトの描画
 	player_->Draw();
+	enemy_->Draw();
 	skydome->Draw();
 
 	//3Dオブジェクト描画後処理
@@ -91,6 +104,7 @@ void GameScene::Draw() {
 
 	//// パーティクル UI FBX スプライト描画
 	player_->FbxDraw();
+	enemy_->FbxDraw();
 }
 
 Vector3 GameScene::bVelocity(Vector3& velocity, Transform& worldTransform)

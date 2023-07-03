@@ -169,7 +169,7 @@
     <ClCompile Include="Engine\input\Controller.cpp">
       <Filter>Engine\ソースファイル\INPUT</Filter>
     </ClCompile>
-    <ClCompile Include="User\player.cpp">
+    <ClCompile Include="User\Player.cpp">
       <Filter>user\ソース</Filter>
     </ClCompile>
     <ClCompile Include="Engine\3D\FbxLoader.cpp">
@@ -180,6 +180,9 @@
     </ClCompile>
     <ClCompile Include="Engine\3D\FBXObject3d.cpp">
       <Filter>Engine\ソースファイル\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="User\Enemy.cpp">
+      <Filter>user\ソース</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -255,7 +258,7 @@
     <ClInclude Include="Engine\input\Controller.h">
       <Filter>Engine\ヘッダーファイル\INPUT</Filter>
     </ClInclude>
-    <ClInclude Include="User\player.h">
+    <ClInclude Include="User\Player.h">
       <Filter>user\ヘッダー</Filter>
     </ClInclude>
     <ClInclude Include="Engine\3D\FbxLoader.h">
@@ -266,6 +269,9 @@
     </ClInclude>
     <ClInclude Include="Engine\3D\FBXObject3d.h">
       <Filter>Engine\ヘッダーファイル\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="User\Enemy.h">
+      <Filter>user\ヘッダー</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

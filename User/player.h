@@ -28,6 +28,9 @@ public:
 	////ワールド座標を取得
 	Vector3 GetWorldPosition();
 
+	Vector3 GetPos() { return fbxObject3d_->wtf.position; };
+
+
 	/// <summary>
 	/// ポジション
 	/// </summary>
@@ -48,6 +51,29 @@ private:
 	FBXModel* fbxModel_ = nullptr;
 	FBXObject3d* fbxObject3d_ = nullptr;
 	
+	//弾発射
+	Object3d* shootObj_ = nullptr;
+	Model* shootModel_ = nullptr;
+	bool isShootFlag = false;
+
+	//切り払いモーション
+	FBXModel* fbxSlashModel_ = nullptr;
+	FBXObject3d* fbxSlashObject3d_ = nullptr;
+	bool isSlashFlag = false;
+	float isSlashTimer = 0.0f;
+
+	//盾モーション
+	FBXModel* fbxGardModel_ = nullptr;
+	FBXObject3d* fbxGardObject3d_ = nullptr;
+	bool isGardFlag = false;
+	float isGardTimer = 0.0f;
+
+	//ヒットボックス
+	Object3d* hitboxObj_ = nullptr;
+	Model* hitboxModel_ = nullptr;
+	
+
+
 	const float moveSpeed_ = 0.1f;
 	const float rotaSpeed_ = 0.1f;
 
@@ -62,6 +88,7 @@ private:
   
 	Vector2 camRotaSpeed = { PI / 1800, PI / 1800};
 
+	bool isAliveFlag = true;
 
 	//ワールド座標を入れる変数
 	Vector3 worldPos;

@@ -97,6 +97,7 @@ public: // メンバ関数
 
 	bool GetAnimationFin() { return isFin; };
 
+
 protected: // メンバ変数
 	ComPtr<ID3D12Resource> constBuffB0; // 定数バッファ
 	// 定数バッファ(スキン)
