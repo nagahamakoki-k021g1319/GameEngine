@@ -57,10 +57,7 @@ private:
 	FBXModel* fbxWinpModel_ = nullptr;
 	FBXObject3d* fbxWinpObject3d_[4] = {0};
 
-	//íeî≠éÀ
-	Object3d* shootObj_ = nullptr;
-	Model* shootModel_ = nullptr;
-	bool isShootFlag = false;
+	
 
 	//è·äQï®
 	Object3d* obstacleObj_[4] = { 0 };

@@ -86,8 +86,6 @@ void Enemy::Update()
 		obstacleObj_[i]->Update();
 	}
 	
-	shootObj_->Update();
-	
 	//G‹›“G‚ª“®‚«n‚ß‚é
 	if (bossGostAt == true) {
 		//‰EãG‹›
