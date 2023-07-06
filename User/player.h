@@ -23,10 +23,19 @@ public:
 	void Draw();
 	void FbxDraw();
 
+	//プレイヤーの行動一覧
+	void PlayerAction();
+
 	Vector3 bVelocity(Vector3& velocity, Transform& worldTransform);
 
 	////ワールド座標を取得
 	Vector3 GetWorldPosition();
+
+	//ワールド座標を取得(弾)
+	Vector3 GetBulletWorldPosition();
+
+	//ワールド座標を取得(レティクル)
+	Vector3 GetRetWorldPosition();
 
 	Vector3 GetPos() { return fbxObject3d_->wtf.position; };
 
@@ -72,7 +81,11 @@ private:
 	Object3d* hitboxObj_ = nullptr;
 	Model* hitboxModel_ = nullptr;
 	
-
+	//レティクル
+	Object3d* retObj_ = nullptr;
+	Model* retModel_ = nullptr;
+	Vector3 enemylen;
+	Vector3 len;
 
 	const float moveSpeed_ = 0.1f;
 	const float rotaSpeed_ = 0.1f;
@@ -90,7 +103,6 @@ private:
 
 	bool isAliveFlag = true;
 
-	//ワールド座標を入れる変数
-	Vector3 worldPos;
+	
 
 };

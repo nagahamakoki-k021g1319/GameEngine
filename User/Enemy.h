@@ -28,6 +28,9 @@ public:
 	////ワールド座標を取得
 	Vector3 GetWorldPosition();
 
+	////ワールド座標を取得(雑魚敵)
+	Vector3 GetWinpWorldPosition();
+
 	void OnColision();
 
 	/// <summary>
@@ -35,6 +38,8 @@ public:
 	/// </summary>
 	/// <param name="pos"></param>
 	void SetPos(Vector3 pos) { fbxObject3d_->wtf.position = pos; };
+
+	void SetPlayer(Player* player) { player_ = player; };
 
 public:
 	//音を止める関数
@@ -56,8 +61,14 @@ private:
 	//雑魚敵
 	FBXModel* fbxWinpModel_ = nullptr;
 	FBXObject3d* fbxWinpObject3d_[4] = {0};
+	bool isAliveFlag = true;
+	int isWinpAliveFlag_[4] = { 0 };
 
-	
+	//弾発射
+	Object3d* shootObj_ = nullptr;
+	Model* shootModel_ = nullptr;
+	bool isShootFlag = false;
+	int isShootTimer = -20;
 
 	//障害物
 	Object3d* obstacleObj_[4] = { 0 };
@@ -68,7 +79,7 @@ private:
 	const float moveSpeed_ = 0.1f;
 	const float rotaSpeed_ = 0.1f;
 
-	bool isAliveFlag = true;
+	
 
 	//ワールド座標を入れる変数
 	Vector3 worldPos;

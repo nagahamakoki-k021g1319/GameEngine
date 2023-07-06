@@ -20,6 +20,7 @@ GameScene::~GameScene() {
 	delete enemy_;
 	delete skydome;
 	delete skydomeMD;
+	delete TitleSprite;
 }
 
 /// <summary>
@@ -37,6 +38,13 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input) {
 	spriteCommon = new SpriteCommon;
 	spriteCommon->Initialize(dxCommon);
 
+	//タイトル
+	TitleSprite->Initialize(spriteCommon);
+	TitleSprite->SetPozition({0,0});
+	TitleSprite->SetSize({ 1280.0f, 720.0f });
+	spriteCommon->LoadTexture(0, "tt.png");
+	TitleSprite->SetTextureIndex(0);
+
 	// カメラ生成
 	mainCamera = new Camera(WinApp::window_width, WinApp::window_height);
 	camera1 = new Camera(WinApp::window_width, WinApp::window_height);
@@ -50,7 +58,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input) {
 	skydomeMD = Model::LoadFromOBJ("skydome");
 	skydome = Object3d::Create();
 	skydome->SetModel(skydomeMD);
-	skydome->wtf.scale = { 10.0f,10.0f,10.0f };
+	skydome->wtf.scale = { 100.0f,100.0f,100.0f };
 	skydome->wtf.rotation = {0.0f,0.0f,0.0f};
 
 	//プレイヤー
@@ -61,6 +69,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input) {
 	//敵
 	enemy_ = new Enemy();
 	enemy_->Initialize(dxCommon, input);
+	enemy_->SetPlayer(player_);
 
 }
 
@@ -72,15 +81,21 @@ void GameScene::Reset() {
 /// 毎フレーム処理
 /// </summary>
 void GameScene::Update() {
+	if (sceneNo_ == SceneNo::Title) {
+		if (input->TriggerKey(DIK_SPACE)) {
+			sceneNo_ = SceneNo::Game;
+		}
+	}
 
-	player_->Update();
+	if (sceneNo_ == SceneNo::Game) {
+		player_->Update();
 
-	enemy_->Update();
+		enemy_->Update();
 
-	skydome->Update();
-	skydome->wtf.rotation.y += 0.0001f;
-	skydome->wtf.rotation.z += 0.001f;
-
+		skydome->Update();
+		skydome->wtf.rotation.y += 0.0001f;
+		skydome->wtf.rotation.z += 0.001f;
+	}
 }
 
 /// <summary>
@@ -88,23 +103,31 @@ void GameScene::Update() {
 /// </summary>
 void GameScene::Draw() {
 
+	if (sceneNo_ == SceneNo::Title) {
+		TitleSprite->Draw();
+		
+	}
+
 	/// <summary>
 	/// 3Dオブジェクトの描画
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// <summary>
 	//3Dオブジェクト描画前処理
 	Object3d::PreDraw(dxCommon->GetCommandList());
-	//// 3Dオブクジェクトの描画
-	player_->Draw();
-	enemy_->Draw();
-	skydome->Draw();
-
+	if (sceneNo_ == SceneNo::Game) {
+		//// 3Dオブクジェクトの描画
+		player_->Draw();
+		enemy_->Draw();
+		skydome->Draw();
+	}
 	//3Dオブジェクト描画後処理
 	Object3d::PostDraw();
 
-	//// パーティクル UI FBX スプライト描画
-	player_->FbxDraw();
-	enemy_->FbxDraw();
+	if (sceneNo_ == SceneNo::Game) {
+		//// パーティクル UI FBX スプライト描画
+		player_->FbxDraw();
+		enemy_->FbxDraw();
+	}
 }
 
 Vector3 GameScene::bVelocity(Vector3& velocity, Transform& worldTransform)

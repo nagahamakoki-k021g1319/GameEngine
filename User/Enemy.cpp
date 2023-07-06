@@ -10,10 +10,13 @@ Enemy::~Enemy()
 	//FBXƒIƒuƒWƒFƒNƒg‰ð•ú
 	delete fbxObject3d_;
 	delete fbxModel_;
-	for (int i = 0; i < 4; i++) { delete fbxWinpObject3d_[i];}
+	for (int i = 0; i < 4; i++) { delete fbxWinpObject3d_[i]; }
 	delete fbxWinpModel_;
 	for (int i = 0; i < 4; i++) { delete obstacleObj_[i]; }
 	delete obstacleModel_;
+	delete shootModel_;
+	delete shootObj_;
+
 }
 
 void Enemy::Initialize(DirectXCommon* dxCommon, Input* input)
@@ -36,7 +39,7 @@ void Enemy::Initialize(DirectXCommon* dxCommon, Input* input)
 	fbxObject3d_ = new FBXObject3d;
 	fbxObject3d_->Initialize();
 	fbxObject3d_->SetModel(fbxModel_);
-	fbxObject3d_->wtf.position = { 0.0f,0.15f,0.0f };
+	fbxObject3d_->wtf.position = { 0.0f,0.1f,0.0f };
 	fbxObject3d_->wtf.scale = { 0.04f,0.04f,0.04f };
 	fbxObject3d_->PlayAnimation(0.5f, false);
 
@@ -50,10 +53,17 @@ void Enemy::Initialize(DirectXCommon* dxCommon, Input* input)
 	}
 	//ŽG‹›“G‚Ì‹““®‚Æƒ|ƒWƒVƒ‡ƒ“
 	//Å‰‚Éo‚Ä‚­‚é0~3‚Ì“G
-	fbxWinpObject3d_[0]->wtf.position = {  2.4f,  1.3f, 2.0f };  //‰Eã{  0.4f, 0.3f,2.0f };   
-	fbxWinpObject3d_[1]->wtf.position = { -2.8f,  1.5f, 2.0f }; //¶ã{ -0.4f, 0.3f,2.0f }; 
-	fbxWinpObject3d_[2]->wtf.position = {  4.0f, 0.6f, 2.0f }; //‰E‰º{  0.4f,-0.3f,2.0f }; 
-	fbxWinpObject3d_[3]->wtf.position = {  -4.0f, -0.2f, 2.0f }; //¶‰º{ -0.4f,-0.3f,2.0f };
+	fbxWinpObject3d_[0]->wtf.position = { 2.4f,  1.3f, 2.0f };  //‰Eã{  0.4f, 0.3f,2.0f };   
+	fbxWinpObject3d_[1]->wtf.position = { -2.8f,  1.4f, 2.0f }; //¶ã{ -0.4f, 0.2f,2.0f }; 
+	fbxWinpObject3d_[2]->wtf.position = { 4.0f, 0.6f, 2.0f }; //‰E‰º{  0.4f,-0.3f,2.0f }; 
+	fbxWinpObject3d_[3]->wtf.position = { -4.0f, -0.2f, 2.0f }; //¶‰º{ -0.4f,-0.3f,2.0f };
+
+
+	shootModel_ = Model::LoadFromOBJ("eneboll");
+	shootObj_ = Object3d::Create();
+	shootObj_->SetModel(shootModel_);
+	shootObj_->wtf.position = { fbxWinpObject3d_[0]->wtf.position.x,fbxWinpObject3d_[0]->wtf.position.y, fbxWinpObject3d_[0]->wtf.position.z };
+	shootObj_->wtf.scale = { 0.04f,0.04f,0.04f };
 
 	obstacleModel_ = Model::LoadFromOBJ("rock");
 	for (int i = 0; i < 4; i++) {
@@ -73,54 +83,79 @@ void Enemy::Update()
 {
 	//Å‰‚Ìƒ{ƒX‚ÌÁ‚¦‚ÄŽG‹›“G‚ªo‚Ä‚­‚é‚Ü‚Å‚Ì‹““®
 	fbxObject3d_->Update();
+	shootObj_->Update();
 	if (bossGostMove == 0) {fbxObject3d_->wtf.position.y -= 0.003f;}
 	if(fbxObject3d_->wtf.position.y <= -0.1f) {bossGostMove = 1;}
 	if(bossGostMove == 1){ fbxObject3d_->wtf.position.z += 0.08f; }
 	if (fbxObject3d_->wtf.position.z >= 6.0f) {bossGostAt = true;}
-	if (fbxObject3d_->wtf.position.z >= 12.0f) { fbxObject3d_->wtf.position.z = 12.0f;}
-	
+	if (fbxObject3d_->wtf.position.z >= 12.0f) { fbxObject3d_->wtf.position.z = 100.0f;}
+
 	for (int i = 0; i < 4; i++) {
 		fbxWinpObject3d_[i]->Update();
 	}
 	for (int i = 0; i < 4; i++) {
 		obstacleObj_[i]->Update();
 	}
-	
+
 	//ŽG‹›“G‚ª“®‚«Žn‚ß‚é
 	if (bossGostAt == true) {
-		//‰EãŽG‹›
-		fbxWinpObject3d_[0]->wtf.position.x -= 0.05f;
-		fbxWinpObject3d_[0]->wtf.position.y -= 0.025f;
-		if (fbxWinpObject3d_[0]->wtf.position.x <= 0.4f) {fbxWinpObject3d_[0]->wtf.position.x = 0.4f;}
-		if (fbxWinpObject3d_[0]->wtf.position.y <= 0.3f) {fbxWinpObject3d_[0]->wtf.position.y = 0.3f;}
-		//¶ãŽG‹›
-		fbxWinpObject3d_[1]->wtf.position.x += 0.05f;
-		fbxWinpObject3d_[1]->wtf.position.y -= 0.025f;
-		if (fbxWinpObject3d_[1]->wtf.position.x >= -0.4f) { fbxWinpObject3d_[1]->wtf.position.x = -0.4f; }
-		if (fbxWinpObject3d_[1]->wtf.position.y <= 0.3f) { fbxWinpObject3d_[1]->wtf.position.y = 0.3f; }
-		fbxWinpObject3d_[2]->wtf.position.x -= 0.005f;
-		fbxWinpObject3d_[3]->wtf.position.x += 0.005f;
+		if (isAliveFlag == true) {
+			isShootTimer++;
+			//‰EãŽG‹›
+			fbxWinpObject3d_[0]->wtf.position.x -= 0.05f;
+			fbxWinpObject3d_[0]->wtf.position.y -= 0.025f;
+			if (fbxWinpObject3d_[0]->wtf.position.x <= 0.4f) { fbxWinpObject3d_[0]->wtf.position.x = 0.4f; }
+			if (fbxWinpObject3d_[0]->wtf.position.y <= 0.2f) { fbxWinpObject3d_[0]->wtf.position.y = 0.2f; }
+			//¶ãŽG‹›
+			fbxWinpObject3d_[1]->wtf.position.x += 0.05f;
+			fbxWinpObject3d_[1]->wtf.position.y -= 0.025f;
+			if (fbxWinpObject3d_[1]->wtf.position.x >= -0.4f) { fbxWinpObject3d_[1]->wtf.position.x = -0.4f; }
+			if (fbxWinpObject3d_[1]->wtf.position.y <= 0.3f) { fbxWinpObject3d_[1]->wtf.position.y = 0.3f; }
+			fbxWinpObject3d_[2]->wtf.position.x -= 0.005f;
+			fbxWinpObject3d_[3]->wtf.position.x += 0.005f;
+
+			
+
+			//’e”­ŽË
+			if (isShootTimer >= 30) {
+				isShootFlag = true;
+			}
+			if (isShootFlag == true) {
+				shootObj_->wtf.position.z -= 0.05f;
+			}
+			else {
+				shootObj_->wtf.position = { fbxWinpObject3d_[0]->wtf.position.x,fbxWinpObject3d_[0]->wtf.position.y, fbxWinpObject3d_[0]->wtf.position.z };
+			}
+			if (shootObj_->wtf.position.z <= -2.0f) {
+				isShootFlag = false;
+				isShootTimer = 0;
+			}
+		}
 
 		//áŠQ•¨
 		for (int i = 0; i < 4; i++) {
 			obstacleObj_[i]->wtf.position.z -= 0.04f;
 		}
-
-
 	}
 
 
 
-	/*if(isAliveFlag == true){
-		if (coll.CircleCollision(player_->GetWorldPosition(), GetWorldPosition(), 1.0f, 1.0f)) {
-			OnColision();
-		};
-	}*/
+	//“–‚½‚è”»’è(Ž©‹@’e‚ÆŽG‹›“G)
+	if (coll.CircleCollision(player_->GetBulletWorldPosition(), GetWinpWorldPosition(), 0.1f, 0.3f)) {
+		OnColision();
+	};
 
+	
 }
 
 void Enemy::Draw()
 {
+	if (isAliveFlag == true) {
+		if (isShootFlag == true) {
+			shootObj_->Draw();
+		}
+	}
+
 	for (int i = 0; i < 4; i++) {
 		obstacleObj_[i]->Draw();
 	}
@@ -128,12 +163,14 @@ void Enemy::Draw()
 
 void Enemy::FbxDraw()
 {
-	if (isAliveFlag == true) {
-		fbxObject3d_->Draw(dxCommon->GetCommandList());
-	}
 
-	for (int i = 0; i < 4; i++) {
-		fbxWinpObject3d_[i]->Draw(dxCommon->GetCommandList());
+	fbxObject3d_->Draw(dxCommon->GetCommandList());
+
+
+	if (isAliveFlag == true) {
+		for (int i = 0; i < 4; i++) {
+			fbxWinpObject3d_[i]->Draw(dxCommon->GetCommandList());
+		}
 	}
 
 }
@@ -151,7 +188,21 @@ Vector3 Enemy::GetWorldPosition()
 	return worldPos;
 }
 
+Vector3 Enemy::GetWinpWorldPosition()
+{
+	//ƒ[ƒ‹ƒhÀ•W‚ð“ü‚ê‚é•Ï”
+	Vector3 WinpWorldPos;
+	fbxWinpObject3d_[0]->wtf.UpdateMat();
+	//ƒ[ƒ‹ƒhs—ñ‚Ì•½sˆÚ“®¬•ª
+	WinpWorldPos.x = fbxWinpObject3d_[0]->wtf.matWorld.m[3][0];
+	WinpWorldPos.y = fbxWinpObject3d_[0]->wtf.matWorld.m[3][1];
+	WinpWorldPos.z = fbxWinpObject3d_[0]->wtf.matWorld.m[3][2];
+
+	return WinpWorldPos;
+}
+
 void Enemy::OnColision()
 {
 	isAliveFlag = false;
 }
+

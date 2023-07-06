@@ -70,8 +70,18 @@ private: // メンバ変数 (固定)
 	Audio* audio = nullptr;
 
 
+
 private:	//メンバ変数
 	const float PI = 3.141592f;
+
+	//シーン切り替え
+	enum class SceneNo {
+		Title, //タイトル
+		Game //射撃
+	};
+	SceneNo sceneNo_ = SceneNo::Game;
+
+
 
 	//カメラ
 	Camera* mainCamera = nullptr;
@@ -88,6 +98,9 @@ private:	//メンバ変数
 	//背景や床
 	Object3d* skydome = nullptr;
 	Model* skydomeMD = nullptr;
+
+	//タイトル
+	Sprite* TitleSprite = new Sprite();
 
 
 
